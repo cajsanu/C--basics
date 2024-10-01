@@ -6,17 +6,22 @@ class Program
     {
         var animals = new List<IAnimal>();
 
-        var dog1 = new Dog("Rufus", 3, 63, "Labrador");
-        var cow1 = new Cow("Helena", 10, 283, true);
-        var dog2 = new Dog("Mindy", 6, 63, "Poodle");
+        var dog1 = new Dog("Rufus", 3, true, "Labrador");
+        var cow1 = new Cow("Helena", 10, true, true);
+        var dog2 = new Dog("Mindy", 6, false, "Poodle");
+        var seagull1 = new Seagull("Clinton", 2, 26.5);
 
         animals.Add(dog1);
         animals.Add(dog2);
         animals.Add(cow1);
+        animals.Add(seagull1);
 
-        foreach(var animal in animals)
+        foreach (var animal in animals)
         {
-            Console.WriteLine($"{animal.Name} who is a {animal.GetType().Name}");
+            Console.WriteLine($"{animal.Name} who is a {animal.GetType().Name} and says");
+            // MakeNoice is return void which is not a value so it cannto be called inside i.e console.writeline bc
+            // writeline expects a value to print
+            animal.MakeNoice();
         }
     }
 }
@@ -28,39 +33,39 @@ public interface IAnimal
     void MakeNoice();
 }
 
-public abstract class Mammal(string name, int age, int daysPregnant) : IAnimal
+public abstract class Mammal(string name, int age, bool friendly) : IAnimal
 {
     public string Name { get; set; } = name;
     public int Age { get; set; } = age;
-    public int DaysPregnant { get; set; } = daysPregnant;
+    public bool Friendly { get; set; } = friendly;
 
     public abstract void MakeNoice();
 }
 
-public abstract class Bird(string name, int age, int daysHatching) : IAnimal
+public abstract class Bird(string name, int age, double wingSpan) : IAnimal
 {
     public string Name { get; set; } = name;
     public int Age { get; set; } = age;
-    public int DaysHatching { get; set; } = daysHatching;
+    public double WingSpan { get; set; } = wingSpan;
 
     public abstract void MakeNoice();
 }
 
-public class Dog(string name, int age, int daysPregnant, string breed) : Mammal(name, age, daysPregnant)
+public class Dog(string name, int age, bool friendly, string breed) : Mammal(name, age, friendly)
 {
     public string Breed { get; set; } = breed;
 
     public override void MakeNoice() => Console.WriteLine("Woof");
 }
 
-public class Cow(string name, int age, int daysPregnant, bool fur) : Mammal(name, age, daysPregnant)
+public class Cow(string name, int age, bool friendly, bool fur) : Mammal(name, age, friendly)
 {
     public bool Fur { get; set; } = fur;
 
     public override void MakeNoice() => Console.WriteLine("Mooo");
 }
 
-public class Seagull(string name, int age, int daysHatching) : Bird(name, age, daysHatching)
+public class Seagull(string name, int age, double wingSpan) : Bird(name, age, wingSpan)
 {
     public override void MakeNoice() => Console.WriteLine("Iik iik");
 }
