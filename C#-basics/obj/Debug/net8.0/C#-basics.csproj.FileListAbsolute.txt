@@ -1,0 +1,15 @@
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/bin/Debug/net8.0/C#-basics
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/bin/Debug/net8.0/C#-basics.deps.json
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/bin/Debug/net8.0/C#-basics.runtimeconfig.json
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/bin/Debug/net8.0/C#-basics.dll
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/bin/Debug/net8.0/C#-basics.pdb
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.GeneratedMSBuildEditorConfig.editorconfig
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.AssemblyInfoInputs.cache
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.AssemblyInfo.cs
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.csproj.CoreCompileInputs.cache
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.sourcelink.json
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.dll
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/refint/C#-basics.dll
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.pdb
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/C#-basics.genruntimeconfig.cache
+/Users/cajsanummelin/Desktop/gitRepos/C#-basics/C#-basics/obj/Debug/net8.0/ref/C#-basics.dll
