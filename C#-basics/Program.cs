@@ -23,6 +23,10 @@ class Program
             // writeline expects a value to print
             animal.MakeNoice();
         }
+
+        IFeedAnimal feedAnimal = new FeedAnimal(dog1);
+        var mammalFeed = new FeedingService(feedAnimal);
+        mammalFeed.GiveFood();
     }
 }
 
@@ -69,3 +73,29 @@ public class Seagull(string name, int age, double wingSpan) : Bird(name, age, wi
 {
     public override void MakeNoice() => Console.WriteLine("Iik iik");
 }
+
+
+///////////
+
+public interface IFeedAnimal
+{
+    void StartFeeding();
+    void StopFeeding();
+}
+
+public class FeedAnimal(IAnimal animal) : IFeedAnimal
+{
+    public void StartFeeding() => Console.WriteLine($"Feeding {animal.Name}");
+    public void StopFeeding() => Console.WriteLine($"Took away {animal.Name}s food");
+}
+
+public class FeedingService(IFeedAnimal animal)
+{
+    private readonly IFeedAnimal _animal = animal;
+
+    public void GiveFood() => _animal.StartFeeding();
+    public void RemoveFood() => _animal.StopFeeding();
+}
+
+
+
