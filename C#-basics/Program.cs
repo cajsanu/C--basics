@@ -2,9 +2,22 @@
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        
+        var animals = new List<IAnimal>();
+
+        var dog1 = new Dog("Rufus", 3, 63, "Labrador");
+        var cow1 = new Cow("Helena", 10, 283, true);
+        var dog2 = new Dog("Mindy", 6, 63, "Poodle");
+
+        animals.Add(dog1);
+        animals.Add(dog2);
+        animals.Add(cow1);
+
+        foreach(var animal in animals)
+        {
+            Console.WriteLine($"{animal.Name} who is a {animal.GetType().Name}");
+        }
     }
 }
 
