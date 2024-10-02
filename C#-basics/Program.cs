@@ -10,11 +10,18 @@ class Program
         var cow1 = new Cow("Helena", 10, true, true);
         var dog2 = new Dog("Mindy", 6, false, "Poodle");
         var seagull1 = new Seagull("Clinton", 2, 26.5);
+        var cow2 = new Cow("Magdalena", 5, false, true);
+
+        var careTaker1 = new CareTaker("Hildur");
+        careTaker1.AnimalsToCareFor.Add(cow1);
+        careTaker1.AnimalsToCareFor.Add(cow2);
+
 
         animals.Add(dog1);
         animals.Add(dog2);
         animals.Add(cow1);
         animals.Add(seagull1);
+        animals.Add(cow2);
 
         foreach (var animal in animals)
         {
@@ -105,5 +112,26 @@ public class FeedingService(IFeedAnimal animal)
     public void RemoveFood() => _animal.StopFeeding();
 }
 
+
+////////
+
+public enum Role
+{
+    CareTaker,
+    Manager
+}
+
+public interface IPerson
+{
+    string Name { get; set; }
+    Role Role { get; }
+}
+
+public class CareTaker(string name) : IPerson
+{
+    public string Name { get; set; } = name;
+    public Role Role { get; } = Role.CareTaker;
+    public List<IAnimal> AnimalsToCareFor { get; set; } = new List<IAnimal>();
+}
 
 
