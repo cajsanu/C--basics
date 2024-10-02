@@ -24,9 +24,16 @@ class Program
             animal.MakeNoice();
         }
 
-        IFeedAnimal feedAnimal = new FeedAnimal(dog1);
-        var mammalFeed = new FeedingService(feedAnimal);
-        mammalFeed.GiveFood();
+        IFeedAnimal feedDog = new FeedAnimal(dog1);
+        var dogFeed = new FeedingService(feedDog);
+        IFeedAnimal feedCow = new FeedAnimal(cow1);
+        var cowFeed = new FeedingService(feedCow);
+        IFeedAnimal feedSeagull = new FeedAnimal(seagull1);
+        var seagullFeed = new FeedingService(feedSeagull);
+
+        dogFeed.GiveFood();
+        cowFeed.RemoveFood();
+        seagullFeed.GiveFood();
     }
 }
 
@@ -37,22 +44,23 @@ public interface IAnimal
     void MakeNoice();
 }
 
-public abstract class Mammal(string name, int age, bool friendly) : IAnimal
+public abstract class Animal(string name, int age) : IAnimal
 {
     public string Name { get; set; } = name;
     public int Age { get; set; } = age;
-    public bool Friendly { get; set; } = friendly;
-
     public abstract void MakeNoice();
 }
 
-public abstract class Bird(string name, int age, double wingSpan) : IAnimal
+public abstract class Mammal(string name, int age, bool friendly) : Animal(name, age)
 {
-    public string Name { get; set; } = name;
-    public int Age { get; set; } = age;
+    public bool Friendly { get; set; } = friendly;
+
+}
+
+public abstract class Bird(string name, int age, double wingSpan) : Animal(name, age)
+{
     public double WingSpan { get; set; } = wingSpan;
 
-    public abstract void MakeNoice();
 }
 
 public class Dog(string name, int age, bool friendly, string breed) : Mammal(name, age, friendly)
@@ -85,8 +93,8 @@ public interface IFeedAnimal
 
 public class FeedAnimal(IAnimal animal) : IFeedAnimal
 {
-    public void StartFeeding() => Console.WriteLine($"Feeding {animal.Name}");
-    public void StopFeeding() => Console.WriteLine($"Took away {animal.Name}s food");
+    public void StartFeeding() => Console.WriteLine($"Feeding {animal.GetType().Name} {animal.Name}");
+    public void StopFeeding() => Console.WriteLine($"Took away {animal.GetType().Name} {animal.Name}s food");
 }
 
 public class FeedingService(IFeedAnimal animal)
