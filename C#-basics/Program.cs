@@ -4,7 +4,7 @@ class Program
 {
     static void Main()
     {
-        var animals = new List<IAnimal>();
+        var caretakers = new List<Caretaker>();
 
         var dog1 = new Dog("Rufus", 3, true, "Labrador");
         var cow1 = new Cow("Helena", 10, true, true);
@@ -12,35 +12,34 @@ class Program
         var seagull1 = new Seagull("Clinton", 2, 26.5);
         var cow2 = new Cow("Magdalena", 5, false, true);
 
-        var careTaker1 = new CareTaker("Hildur");
-        careTaker1.AnimalsToCareFor.Add(cow1);
-        careTaker1.AnimalsToCareFor.Add(cow2);
+        var service = new AnimalService();
 
+        var caretaker1 = new Caretaker("Hildur", service);
+        caretaker1.AnimalsToCareFor.Add(cow1);
+        caretaker1.AnimalsToCareFor.Add(cow2);
+        var caretaker2 = new Caretaker("Jeremiah", service);
+        caretaker2.AnimalsToCareFor.Add(dog1);
+        caretaker2.AnimalsToCareFor.Add(dog2);
+        caretaker2.AnimalsToCareFor.Add(seagull1);
 
-        animals.Add(dog1);
-        animals.Add(dog2);
-        animals.Add(cow1);
-        animals.Add(seagull1);
-        animals.Add(cow2);
+        caretakers.Add(caretaker1);
+        caretakers.Add(caretaker2);
 
-        foreach (var animal in animals)
+        foreach (var caretaker in caretakers)
         {
-            Console.WriteLine($"{animal.Name} who is a {animal.GetType().Name} and says");
-            // MakeNoice is return void which is not a value so it cannto be called inside i.e console.writeline bc
-            // writeline expects a value to print
-            animal.MakeNoice();
+            Console.WriteLine($"Caretaker {caretaker.Name} is responsible for:");
+            foreach (var animal in caretaker.AnimalsToCareFor)
+            {
+                caretaker.GiveFood(animal);
+                Console.WriteLine($"{animal.Name} who is a {animal.GetType().Name} and says");
+                // MakeNoice is return void which is not a value so it cannto be called inside i.e console.writeline bc
+                // writeline expects a value to print
+                animal.MakeNoice();
+                caretaker.RemoveFood(animal);
+            }
         }
 
-        IFeedAnimal feedDog = new FeedAnimal(dog1);
-        var dogFeed = new FeedingService(feedDog);
-        IFeedAnimal feedCow = new FeedAnimal(cow1);
-        var cowFeed = new FeedingService(feedCow);
-        IFeedAnimal feedSeagull = new FeedAnimal(seagull1);
-        var seagullFeed = new FeedingService(feedSeagull);
 
-        dogFeed.GiveFood();
-        cowFeed.RemoveFood();
-        seagullFeed.GiveFood();
     }
 }
 
@@ -92,24 +91,16 @@ public class Seagull(string name, int age, double wingSpan) : Bird(name, age, wi
 
 ///////////
 
-public interface IFeedAnimal
+public interface IAnimalService
 {
-    void StartFeeding();
-    void StopFeeding();
+    void StartFeeding(IAnimal animal);
+    void StopFeeding(IAnimal animal);
 }
 
-public class FeedAnimal(IAnimal animal) : IFeedAnimal
+public class AnimalService : IAnimalService
 {
-    public void StartFeeding() => Console.WriteLine($"Feeding {animal.GetType().Name} {animal.Name}");
-    public void StopFeeding() => Console.WriteLine($"Took away {animal.GetType().Name} {animal.Name}s food");
-}
-
-public class FeedingService(IFeedAnimal animal)
-{
-    private readonly IFeedAnimal _animal = animal;
-
-    public void GiveFood() => _animal.StartFeeding();
-    public void RemoveFood() => _animal.StopFeeding();
+    public void StartFeeding(IAnimal animal) => Console.WriteLine($"The caretaker is feeding {animal.GetType().Name} {animal.Name}");
+    public void StopFeeding(IAnimal animal) => Console.WriteLine($"{animal.Name} has been fed and the food has been taken away");
 }
 
 
@@ -117,7 +108,7 @@ public class FeedingService(IFeedAnimal animal)
 
 public enum Role
 {
-    CareTaker,
+    Caretaker,
     Manager
 }
 
@@ -127,11 +118,16 @@ public interface IPerson
     Role Role { get; }
 }
 
-public class CareTaker(string name) : IPerson
+public class Caretaker(string name, IAnimalService service) : IPerson
 {
     public string Name { get; set; } = name;
-    public Role Role { get; } = Role.CareTaker;
+    public Role Role { get; } = Role.Caretaker;
     public List<IAnimal> AnimalsToCareFor { get; set; } = new List<IAnimal>();
+
+    private readonly IAnimalService _service = service;
+
+    public void GiveFood(IAnimal animal) => _service.StartFeeding(animal);
+    public void RemoveFood(IAnimal animal) => _service.StopFeeding(animal);
 }
 
 
