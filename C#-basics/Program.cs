@@ -11,12 +11,14 @@ class Program
         var dog2 = new Dog("Mindy", 6, false, "Poodle");
         var seagull1 = new Seagull("Clinton", 2, 26.5);
         var cow2 = new Cow("Magdalena", 5, false, true);
+        var dog3 = new Dog("Rufus", 3, true, "Pomeranian");
 
         var service = new AnimalService();
 
         var caretaker1 = new Caretaker("Hildur", service);
         caretaker1.AnimalsToCareFor.Add(cow1);
         caretaker1.AnimalsToCareFor.Add(cow2);
+        caretaker1.AnimalsToCareFor.Add(dog3);
         var caretaker2 = new Caretaker("Jeremiah", service);
         caretaker2.AnimalsToCareFor.Add(dog1);
         caretaker2.AnimalsToCareFor.Add(dog2);
@@ -39,7 +41,39 @@ class Program
             }
         }
 
+        var rufuses = caretakers
+        // selectmany flattens the lists of animalstocarefor into one single list of animals
+            .SelectMany(c => c.AnimalsToCareFor)
+            .Where(a => a.GetType().Name == "Dog" && a.Name == "Rufus")
+            .Select(d =>
+            {
+                var dog = d as Dog;
+                return $"{dog.Name} who is a {dog.Breed}";
+            });
 
+        foreach (var r in rufuses)
+        {
+            Console.WriteLine(r);
+        }
+
+        // var rufusCaretakers = caretakers
+        // // the where selects a user if the users array of animalstocarefor contains any dogs named rufus
+        //     .Where(carer => carer.AnimalsToCareFor
+        //         .Any(ani => ani.GetType().Name == "Dog" && ani.Name == "Rufus"))
+        //     .Select(carer => carer.Name);
+
+        var rufusCaretakers = caretakers
+        // the selectmany flattens the animalstocarefor list and chooses animals that are dogs and called rufus.
+        // then the first select returns a new objcet with carer and dog name
+            .SelectMany(carer => carer.AnimalsToCareFor
+                .Where(a => a is Dog && a.Name == "Rufus")
+                .Select(a => new { CarerName = carer.Name, DogName = a.Name })
+            .Select(c => $"{c.CarerName} who takes care of {c.DogName}"));
+
+        foreach (var c in rufusCaretakers)
+        {
+            Console.WriteLine(c);
+        }
     }
 }
 
